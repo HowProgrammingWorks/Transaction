@@ -10,6 +10,7 @@ Transaction.start = (data) => {
     commit: () => {
       console.log('commit transaction');
       Object.assign(data, delta);
+      delta = {};
     },
     rollback: () => {
       console.log('rollback transaction');
