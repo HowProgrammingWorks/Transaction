@@ -18,53 +18,49 @@ Transaction.start = (data) => {
     }
   };
 
-  return new Proxy(data, {
-    get(target, key) {
-      console.log('get', key);
+  const proxy = new Proxy(data, {
+    get(target, key, proxy) {
       if (key === Symbol.iterator) {
         const changes = Object.keys(delta);
         const keys = Object.keys(target).concat(changes);
         const props = keys.filter((x, i, a) => a.indexOf(x) === i);
         return props[Symbol.iterator]();
       }
-      return methods[key] || delta[key] || target[key];
+      if (methods.hasOwnProperty(key)) return methods[key];
+      if (delta.hasOwnProperty(key)) return delta[key];
+      return target[key];
     },
+    getOwnPropertyDescriptor: (target, key) => (
+      Object.getOwnPropertyDescriptor(
+        delta.hasOwnProperty(key) ? delta : target, key
+      )
+    ),
     set(target, key, val) {
       console.log('set', key, val);
-      if (target[key] === val) {
-        delete delta[key];
-      } else {
-        delta[key] = val;
-      }
+      if (target[key] === val) delete delta[key];
+      else delta[key] = val;
       return true;
     }
   });
+  return proxy;
 };
-
 
 // Usage
 
 const data = { name: 'Marcus Aurelius', city: 'Rome', born: 121 };
 
 const transaction = Transaction.start(data);
+console.dir(transaction);
 
 transaction.name = 'Mao Zedong';
 transaction.born = 1893;
-
-console.log('data.name = ', data.name);
-console.log('transaction.name = ', transaction.name);
+console.dir({ data, transaction });
 
 transaction.commit();
-
-console.log('data.name = ', data.name);
-console.log('transaction.name = ', transaction.name);
+console.dir({ data, transaction });
 
 transaction.city = 'Shaoshan';
-
-console.log('data.city = ', data.city);
-console.log('transaction.city = ', transaction.city);
+console.dir({ data, transaction });
 
 transaction.rollback();
-
-console.log('data.city = ', data.city);
-console.log('transaction.city = ', transaction.city);
+console.dir({ data, transaction });
