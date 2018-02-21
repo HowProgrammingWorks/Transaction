@@ -1,2 +1,1 @@
-# Transaction
-Atomic transaction container for struct or object
+# Atomic transaction container for struct or object
