@@ -11,59 +11,49 @@ Transaction.start = (data) => {
       console.log('commit transaction');
       Object.assign(data, delta);
       delta = {};
-      methods.delta = delta;
     },
     rollback: () => {
       console.log('rollback transaction');
       delta = {};
-      methods.delta = delta;
-    },
-    delta
+    }
   };
 
   return new Proxy(data, {
     get(target, key) {
-      console.log('get', key);
-      if (key === Symbol.iterator) {
-        const changes = Object.keys(delta);
-        const keys = Object.keys(target).concat(changes);
-        const props = keys.filter((x, i, a) => a.indexOf(x) === i);
-        return props[Symbol.iterator]();
-      }
-      return methods[key] || delta[key] || target[key];
+      if (methods.hasOwnProperty(key)) return methods[key];
+      if (delta.hasOwnProperty(key)) return delta[key];
+      return target[key];
     },
     set(target, key, val) {
       console.log('set', key, val);
-      if (target[key] === val) {
-        delete delta[key];
-      } else {
-        delta[key] = val;
-      }
+      if (target[key] === val) delete delta[key];
+      else delta[key] = val;
       return true;
     }
   });
 };
-
 
 // Usage
 
 const data = { name: 'Marcus Aurelius', city: 'Rome', born: 121 };
 
 const transaction = Transaction.start(data);
+console.log(JSON.stringify(data), JSON.stringify(transaction));
+console.dir({ data, transaction });
 
 transaction.name = 'Mao Zedong';
 transaction.born = 1893;
-
-console.dir(transaction.delta);
+console.log('JSON:', JSON.stringify(data), JSON.stringify(transaction));
+console.dir({ data, transaction });
 
 transaction.commit();
-
-console.dir(transaction.delta);
+console.log('JSON:', JSON.stringify(data), JSON.stringify(transaction));
+console.dir({ data, transaction });
 
 transaction.city = 'Shaoshan';
-
-console.dir(transaction.delta);
+console.log('JSON:', JSON.stringify(data), JSON.stringify(transaction));
+console.dir({ data, transaction });
 
 transaction.rollback();
-
-console.dir(transaction.delta);
+console.log('JSON:', JSON.stringify(data), JSON.stringify(transaction));
+console.dir({ data, transaction });
