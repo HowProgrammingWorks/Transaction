@@ -3,17 +3,17 @@
 function Transaction() {}
 
 Transaction.start = (data) => {
-  console.log('start transaction');
+  console.log('\nstart transaction');
   let delta = {};
 
   const methods = {
     commit: () => {
-      console.log('commit transaction');
+      console.log('\ncommit transaction');
       Object.assign(data, delta);
       delta = {};
     },
     rollback: () => {
-      console.log('rollback transaction');
+      console.log('\nrollback transaction');
       delta = {};
     }
   };
@@ -24,11 +24,14 @@ Transaction.start = (data) => {
       if (delta.hasOwnProperty(key)) return delta[key];
       return target[key];
     },
+
+    // Added handler
     getOwnPropertyDescriptor: (target, key) => (
       Object.getOwnPropertyDescriptor(
         delta.hasOwnProperty(key) ? delta : target, key
       )
     ),
+
     set(target, key, val) {
       console.log('set', key, val);
       if (target[key] === val) delete delta[key];
@@ -40,25 +43,30 @@ Transaction.start = (data) => {
 
 // Usage
 
-const data = { name: 'Marcus Aurelius', city: 'Rome', born: 121 };
+const data = { name: 'Marcus Aurelius', born: 121 };
 
 const transaction = Transaction.start(data);
-console.log(JSON.stringify(data), JSON.stringify(transaction));
-console.dir({ data, transaction });
+console.log('data', JSON.stringify(data));
+console.log('transaction', JSON.stringify(transaction));
 
 transaction.name = 'Mao Zedong';
 transaction.born = 1893;
-console.log('JSON:', JSON.stringify(data), JSON.stringify(transaction));
-console.dir({ data, transaction });
+transaction.city = 'Shaoshan';
+
+console.log('\noutput with JSON.stringify:');
+console.log('data', JSON.stringify(data));
+console.log('transaction *', JSON.stringify(transaction));
+
+console.log('\noutput with console.dir *:');
+console.dir({ transaction });
+
+console.log('\noutput with for-in *:');
+for (const key in transaction) {
+  console.log(key, transaction[key]);
+}
+
+console.log('\n* partially fixed, except .city\n');
 
 transaction.commit();
-console.log('JSON:', JSON.stringify(data), JSON.stringify(transaction));
-console.dir({ data, transaction });
-
-transaction.city = 'Shaoshan';
-console.log('JSON:', JSON.stringify(data), JSON.stringify(transaction));
-console.dir({ data, transaction });
-
-transaction.rollback();
-console.log('JSON:', JSON.stringify(data), JSON.stringify(transaction));
-console.dir({ data, transaction });
+console.log('data', JSON.stringify(data));
+console.log('transaction', JSON.stringify(transaction));
