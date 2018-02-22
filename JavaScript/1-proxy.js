@@ -1,17 +1,16 @@
 'use strict';
 
 const start = (data) => {
-  console.log('start transaction');
+  console.log('\nstart transaction');
   let delta = {};
+  const commit = () => {
+    console.log('\ncommit transaction');
+    Object.assign(data, delta);
+    delta = {};
+  };
   return new Proxy(data, {
     get(target, key) {
-      if (key === 'commit') {
-        return () => {
-          console.log('commit transaction');
-          Object.assign(data, delta);
-          delta = {};
-        };
-      }
+      if (key === 'commit') return commit;
       if (delta.hasOwnProperty(key)) return delta[key];
       return target[key];
     },
@@ -26,7 +25,7 @@ const start = (data) => {
 
 // Usage
 
-const data = { name: 'Marcus Aurelius', city: 'Rome', born: 121 };
+const data = { name: 'Marcus Aurelius', born: 121 };
 
 console.log('data.name', data.name);
 console.log('data.born', data.born);
