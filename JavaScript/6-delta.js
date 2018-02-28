@@ -60,6 +60,11 @@ console.dir({ data });
 transaction.name = 'Mao Zedong';
 transaction.born = 1893;
 transaction.city = 'Shaoshan';
+transaction.age = (
+  new Date().getFullYear() -
+  new Date(transaction.born + '').getFullYear()
+);
+
 console.dir({ transaction });
 console.dir({ delta: transaction.delta });
 
