@@ -63,6 +63,17 @@ Transaction.start = (data) => {
 
 function DatasetTransaction(dataset) {
   this.dataset = dataset;
+  this.log = []; // array of LogRecord { time, operation, delta }
+  // [
+  //    { id, time: '2018-01-01T12:01:00', operation: 'start' }
+  //    { id, time: '2018-01-01T12:02:15', operation: 'set', delta }
+  //    { id, time: '2018-01-01T12:02:32', operation: 'commit', delta }
+  //    { id, time: '2018-01-01T12:02:37', operation: 'set', delta }
+  //    { id, time: '2018-01-01T12:03:11', operation: 'rollback', delta }
+  //    { id, time: '2018-01-01T12:03:18', operation: 'set', delta }
+  //    { id, time: '2018-01-01T12:04:42', operation: 'timeout' }
+  //    { id, time: '2018-01-01T12:04:52', operation: 'rollback', delta }
+  // ]
 }
 
 DatasetTransaction.start = function(dataset) {
@@ -74,7 +85,15 @@ DatasetTransaction.prototype.commit = function() {
   // place implementation here
 };
 
-DatasetTransaction.prototype.rollback = function() {
+DatasetTransaction.prototype.rollback = function(id /* optional log id */) {
+  // place implementation here
+};
+
+DatasetTransaction.prototype.timeout = function(
+  msec, // timeout, 0 - disable
+  commit, // true - commit, false - rollback
+  listener // (optional) function(boolean) : boolean
+) {
   // place implementation here
 };
 
