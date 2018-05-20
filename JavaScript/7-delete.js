@@ -5,7 +5,7 @@ function Transaction() {}
 Transaction.start = (data) => {
   console.log('\nstart transaction');
   let delta = {};
-  let deleteDelta = new Set();
+  const deleteDelta = new Set();
 
   const methods = {
     commit: () => {
