@@ -2,7 +2,7 @@
 
 function Transaction() {}
 
-Transaction.start = (data) => {
+Transaction.start = data => {
   console.log('start transaction');
   const events = { commit: [], rollback: [], timeout: [], change: [] };
   let delta = {};

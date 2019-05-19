@@ -2,14 +2,14 @@
 
 function Transaction() {}
 
-Transaction.start = (data) => {
+Transaction.start = data => {
   console.log('\nstart transaction');
   const events = {
     commit: [], rollback: [], timeout: [], change: []
   };
   let delta = {};
 
-  const emit = (name) => {
+  const emit = name => {
     const event = events[name];
     for (const listener of event) listener(data);
   };

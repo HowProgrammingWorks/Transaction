@@ -2,21 +2,24 @@
 
 // Interface definition
 
-function Transaction() {}
+class Transaction {
+  constructor() {
+    // this.delta
+  }
 
-Transaction.start = (data) => {
-  // place implementation here
-  return [obj, transaction];
-};
+  static start(data) {
+    // place implementation here
+    return [obj, transaction];
+  }
 
-// Transaction.delta
-Transaction.prototype.commit = () => {};
-Transaction.prototype.rollback = () => {};
-Transaction.prototype.revoke = () => {};
-Transaction.prototype.timeout = (msec) => {};
-Transaction.prototype.before = (event, listener) => {};
-Transaction.prototype.after = (event, listener) => {};
-// Events: commit, rollback, revoke, set, get, timeout
+  commit() {}
+  rollback() {}
+  revoke() {}
+  timeout(msec) {}
+  before(event, listener) {}
+  after(event, listener) {}
+  // Events: commit, rollback, revoke, set, get, timeout
+}
 
 // Usage
 

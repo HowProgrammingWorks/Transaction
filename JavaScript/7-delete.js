@@ -2,7 +2,7 @@
 
 function Transaction() {}
 
-Transaction.start = (data) => {
+Transaction.start = data => {
   console.log('\nstart transaction');
   let delta = {};
   const deleteDelta = new Set();

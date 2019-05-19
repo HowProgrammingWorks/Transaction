@@ -3,7 +3,7 @@
 const data = { name: 'Marcus' };
 
 const { proxy, revoke } = Proxy.revocable(data, {
-  get: function(target, key) {
+  get(target, key) {
     return '[[' + target[key] + ']]';
   }
 });

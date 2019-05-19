@@ -2,7 +2,7 @@
 
 function Transaction() {}
 
-Transaction.start = (data) => {
+Transaction.start = data => {
   console.log('\nstart transaction');
   let delta = {};
 
@@ -68,10 +68,14 @@ transaction.age = (
 console.dir({ transaction });
 console.dir({ delta: transaction.delta });
 
+const transaction2 = transaction.clone();
+
 transaction.commit();
 console.dir({ data });
 console.dir({ transaction });
+console.dir({ transaction2 });
 console.dir({ delta: transaction.delta });
+console.dir({ delta2: transaction2.delta });
 
 transaction.born = 1976;
 console.dir({ transaction });
