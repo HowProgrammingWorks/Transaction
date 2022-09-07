@@ -1,6 +1,6 @@
 'use strict';
 
-const start = data => {
+const start = (data) => {
   console.log('\nstart transaction');
   let delta = {};
   const commit = () => {
