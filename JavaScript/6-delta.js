@@ -62,7 +62,7 @@ transaction.born = 1893;
 transaction.city = 'Shaoshan';
 transaction.age = (
   new Date().getFullYear() -
-  new Date(transaction.born + '').getFullYear()
+  new Date(transaction.born.toString()).getFullYear()
 );
 
 console.dir({ transaction });

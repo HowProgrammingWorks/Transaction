@@ -12,7 +12,7 @@ const [obj, transaction] = Transaction.start(data, {
   age() {
     return (
       new Date().getFullYear() -
-      new Date(this.born + '').getFullYear()
+      new Date(this.born.toString()).getFullYear()
     );
   },
   country() {

@@ -9,7 +9,7 @@ class Transaction {
 
   static start(data) {
     // place implementation here
-    return [obj, transaction];
+    return [obj, this];
   }
 
   commit() {}
@@ -33,7 +33,7 @@ obj.born = 1893;
 obj.city = 'Shaoshan';
 obj.age = (
   new Date().getFullYear() -
-  new Date(transaction.born + '').getFullYear()
+  new Date(transaction.born.toString()).getFullYear()
 );
 
 console.dir({ obj });
