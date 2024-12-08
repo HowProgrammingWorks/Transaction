@@ -19,7 +19,7 @@ const start = (data) => {
       if (target[key] === val) delete delta[key];
       else delta[key] = val;
       return true;
-    }
+    },
   });
 };
 

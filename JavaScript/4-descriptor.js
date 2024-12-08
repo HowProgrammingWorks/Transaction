@@ -15,7 +15,7 @@ Transaction.start = (data) => {
     rollback: () => {
       console.log('\nrollback transaction');
       delta = {};
-    }
+    },
   };
 
   return new Proxy(data, {
@@ -30,7 +30,8 @@ Transaction.start = (data) => {
     getOwnPropertyDescriptor: (target, key) => {
       console.log('getOwnPropertyDescriptor', key);
       const descriptor = Object.getOwnPropertyDescriptor(
-        delta.hasOwnProperty(key) ? delta : target, key
+        delta.hasOwnProperty(key) ? delta : target,
+        key,
       );
       console.dir(descriptor);
       return descriptor;
@@ -41,7 +42,7 @@ Transaction.start = (data) => {
       if (target[key] === val) delete delta[key];
       else delta[key] = val;
       return true;
-    }
+    },
   });
 };
 

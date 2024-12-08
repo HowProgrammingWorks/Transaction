@@ -26,7 +26,7 @@ Transaction.start = (data) => {
       const cloned = Transaction.start(data);
       Object.assign(cloned.delta, delta);
       return cloned;
-    }
+    },
   };
 
   return new Proxy(data, {
@@ -36,11 +36,11 @@ Transaction.start = (data) => {
       if (delta.hasOwnProperty(key)) return delta[key];
       return target[key];
     },
-    getOwnPropertyDescriptor: (target, key) => (
+    getOwnPropertyDescriptor: (target, key) =>
       Object.getOwnPropertyDescriptor(
-        delta.hasOwnProperty(key) ? delta : target, key
-      )
-    ),
+        delta.hasOwnProperty(key) ? delta : target,
+        key,
+      ),
     ownKeys() {
       const changes = Object.keys(delta);
       const keys = Object.keys(data).concat(changes);
@@ -73,7 +73,7 @@ delete transaction.born;
 
 console.dir({
   keys: Object.keys(transaction),
-  delta: transaction.delta
+  delta: transaction.delta,
 });
 
 console.dir({ data });

@@ -5,19 +5,18 @@
 const data = { name: 'Marcus Aurelius', born: 121, city: 'Rome' };
 
 const cities = {
-  'Roman Empire': ['Rome']
+  'Roman Empire': ['Rome'],
 };
 
 const [obj, transaction] = Transaction.start(data, {
   age() {
-    return (
-      new Date().getFullYear() -
-      new Date(this.born.toString()).getFullYear()
-    );
+    const currentYear = new Date().getFullYear();
+    const bornYear = new Date(this.born.toString()).getFullYear();
+    return currentYear - bornYear;
   },
   country() {
     // implementation cann access cities index
-  }
+  },
 });
 
 console.dir({ age: obj.age, country: obj.country });

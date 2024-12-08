@@ -31,10 +31,9 @@ console.dir({ data });
 obj.name = 'Mao Zedong';
 obj.born = 1893;
 obj.city = 'Shaoshan';
-obj.age = (
+obj.age =
   new Date().getFullYear() -
-  new Date(transaction.born.toString()).getFullYear()
-);
+  new Date(transaction.born.toString()).getFullYear();
 
 console.dir({ obj });
 console.dir({ delta: transaction.delta });

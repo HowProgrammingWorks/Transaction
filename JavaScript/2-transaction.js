@@ -15,7 +15,7 @@ Transaction.start = (data) => {
     rollback: () => {
       console.log('\nrollback transaction');
       delta = {};
-    }
+    },
   };
 
   return new Proxy(data, {
@@ -30,7 +30,7 @@ Transaction.start = (data) => {
       if (target[key] === val) delete delta[key];
       else delta[key] = val;
       return true;
-    }
+    },
   });
 };
 

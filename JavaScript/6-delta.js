@@ -21,7 +21,7 @@ Transaction.start = (data) => {
       const cloned = Transaction.start(data);
       Object.assign(cloned.delta, delta);
       return cloned;
-    }
+    },
   };
 
   return new Proxy(data, {
@@ -31,11 +31,11 @@ Transaction.start = (data) => {
       if (delta.hasOwnProperty(key)) return delta[key];
       return target[key];
     },
-    getOwnPropertyDescriptor: (target, key) => (
+    getOwnPropertyDescriptor: (target, key) =>
       Object.getOwnPropertyDescriptor(
-        delta.hasOwnProperty(key) ? delta : target, key
-      )
-    ),
+        delta.hasOwnProperty(key) ? delta : target,
+        key,
+      ),
     ownKeys() {
       const changes = Object.keys(delta);
       const keys = Object.keys(data).concat(changes);
@@ -46,7 +46,7 @@ Transaction.start = (data) => {
       if (target[key] === val) delete delta[key];
       else delta[key] = val;
       return true;
-    }
+    },
   });
 };
 
@@ -60,10 +60,9 @@ console.dir({ data });
 transaction.name = 'Mao Zedong';
 transaction.born = 1893;
 transaction.city = 'Shaoshan';
-transaction.age = (
+transaction.age =
   new Date().getFullYear() -
-  new Date(transaction.born.toString()).getFullYear()
-);
+  new Date(transaction.born.toString()).getFullYear();
 
 console.dir({ transaction });
 console.dir({ delta: transaction.delta });
