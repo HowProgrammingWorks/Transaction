@@ -20,8 +20,8 @@ Transaction.start = (data) => {
 
   return new Proxy(data, {
     get(target, key) {
-      if (methods.hasOwnProperty(key)) return methods[key];
-      if (delta.hasOwnProperty(key)) return delta[key];
+      if (Object.hasOwn(methods, key)) return methods[key];
+      if (Object.hasOwn(delta, key)) return delta[key];
       return target[key];
     },
     set(target, key, val) {

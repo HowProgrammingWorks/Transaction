@@ -11,7 +11,7 @@ const start = (data) => {
   return new Proxy(data, {
     get(target, key) {
       if (key === 'commit') return commit;
-      if (delta.hasOwnProperty(key)) return delta[key];
+      if (Object.hasOwn(delta, key)) return delta[key];
       return target[key];
     },
     set(target, key, val) {

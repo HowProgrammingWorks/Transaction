@@ -1,5 +1,7 @@
 'use strict';
 
+const { Transaction } = require('./9-separate.js');
+
 // Usage
 
 const data = { name: 'Marcus Aurelius', born: 121, city: 'Rome' };

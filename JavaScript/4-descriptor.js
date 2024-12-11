@@ -21,8 +21,8 @@ Transaction.start = (data) => {
   return new Proxy(data, {
     get(target, key) {
       console.log('get', key);
-      if (methods.hasOwnProperty(key)) return methods[key];
-      if (delta.hasOwnProperty(key)) return delta[key];
+      if (Object.hasOwn(methods, key)) return methods[key];
+      if (Object.hasOwn(delta, key)) return delta[key];
       return target[key];
     },
 
@@ -30,7 +30,7 @@ Transaction.start = (data) => {
     getOwnPropertyDescriptor: (target, key) => {
       console.log('getOwnPropertyDescriptor', key);
       const descriptor = Object.getOwnPropertyDescriptor(
-        delta.hasOwnProperty(key) ? delta : target,
+        Object.hasOwn(delta, key) ? delta : target,
         key,
       );
       console.dir(descriptor);

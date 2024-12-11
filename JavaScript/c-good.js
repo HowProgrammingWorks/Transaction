@@ -39,8 +39,8 @@ Transaction.start = (data) => {
   const proxy = new Proxy(data, {
     get(target, key) {
       if (key === Symbol.iterator) return getKeys()[key]();
-      if (methods.hasOwnProperty(key)) return methods[key];
-      if (delta.hasOwnProperty(key)) return delta[key];
+      if (Object.hasOwn(methods, key)) return methods[key];
+      if (Object.hasOwn(delta, key)) return delta[key];
       return target[key];
     },
     ownKeys() {
@@ -48,7 +48,7 @@ Transaction.start = (data) => {
     },
     getOwnPropertyDescriptor: (target, key) =>
       Object.getOwnPropertyDescriptor(
-        delta.hasOwnProperty(key) ? delta : target,
+        Object.hasOwn(delta, key) ? delta : target,
         key,
       ),
     set(target, key, val) {

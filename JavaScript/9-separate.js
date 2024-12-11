@@ -9,6 +9,7 @@ class Transaction {
 
   static start(data) {
     // place implementation here
+    const obj = {};
     return [obj, this];
   }
 
@@ -20,6 +21,8 @@ class Transaction {
   after(event, listener) {}
   // Events: commit, rollback, revoke, set, get, timeout
 }
+
+module.export = { Transaction };
 
 // Usage
 
